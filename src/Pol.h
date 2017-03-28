@@ -8,10 +8,16 @@
 #ifndef POL_H_
 #define POL_H_
 
+#include <boost/math/tools/polynomial.hpp>
+#include <iostream>
+
+using namespace boost::math::tools; // for polynomial
+using namespace std;
+
 class Pol {
 public:
-	Pol();
-	virtual ~Pol();
+	Pol(){};
+	virtual ~Pol(){};
 	
 	template<class T>
 	void print_pol(polynomial<T> pol){
