@@ -18,9 +18,6 @@
 using namespace boost::math::tools;
 using namespace std;
 
-// global variables
-
-
 class Laguerre{
 public:
 	Laguerre(){};
@@ -46,9 +43,7 @@ public:
 		T x;
 		bool flag ;
 		//for (int j = 0; j < m ;j++){
-		while (cont != 0){
-			cout<<m<<endl;
-
+		while (cont > 0){
 			fd= poly;
 			sd= poly;
 			for(double i = 0; i < n; i++){// calcula la primera derivada
@@ -78,39 +73,31 @@ public:
 		 	x=0;
 		 	flag = true;
 		 	while(flag){
-		 	//for (int i = 0; i < 10 ; i++){
-		 //	cout<<"x : "<<x<<endl;
-		 	T G = fd.evaluate(x)/poly.evaluate(x);
-	 	 	T H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
-	 	 	T a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
-	 	 	T a2 = m / (G - sqrt((m-1)*(m*H-pow(G,2))));
-		 	//cout<<"a1 : "<<a1<<endl;
-		 	//cout<<"a2 : "<<a2<<endl;
-		 	if (norm(a1) == norm(a1) && norm(a2) == norm(a2)){
-			 	if (min(norm(a1),norm(a2)) < 0.000000001 )
-			 	 	flag = false;
-			 	else if(norm(a1)>norm(a2))
-			 		x -= a2;
-			 	else
-			 	  x -= a1;
-				}
-		}
-
-
-	 cout<<"un cero es : "<<x<<endl;
-   polynomial<T> raiz{{-x,1.0}};
-   polynomial<T> residuo{{0.0,0.0, 0.0,0.0}};
-	 poly = pol->divide(poly,raiz,residuo);
-	 cont--;
-
+		 		T G = fd.evaluate(x)/poly.evaluate(x);
+		 		T H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
+		 		T a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
+		 		T a2 = m / (G - sqrt((m-1)*(m*H-pow(G,2))));
+		 		//cout<<"a1 : "<<a1<<endl;
+		 		//cout<<"a2 : "<<a2<<endl;
+		 		if (norm(a1) == norm(a1) && norm(a2) == norm(a2)){
+		 			if (min(norm(a1),norm(a2)) < 0.000000001 )
+		 				flag = false;
+		 			else if(norm(a1)>norm(a2))
+		 				x -= a2;
+		 			else
+		 				x -= a1;
+		 		}
+		 		else{
+		 			flag = false;
+		 		}
+		 	}
+		 	cout<<"un cero es : "<<x<<endl;
+		 	polynomial<T> raiz{{-x,1.0}};
+		 	polynomial<T> residuo{{0.0,0.0, 0.0,0.0}};
+		 	poly = pol->divide(poly,raiz,residuo);
+		 	cont--;
 	}
-
-
 }
-
-
-private:
-
 };
 
 

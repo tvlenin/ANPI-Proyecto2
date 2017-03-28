@@ -117,9 +117,11 @@ public:
 		// Calculate next estimate
 		x=x3+xl*(x3-x2);
 		// Test for convergence
-		if (norm(x-x3)<norm(e)) return x;
+		if (norm(x-x3)<norm(e))
+			return x;
 		// Test for number of iterations
-		if (k>=n) return x;
+		if (k>=n)
+			return x;
 		// Otherwise, make another pass
 		k++;
 		// Some saving

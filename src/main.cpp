@@ -1,37 +1,5 @@
-/*
- * main.cpp
- *
- *  Created on: Mar 27, 2017
- *      Author: fasm22
- */
-
-
-/****************************************************
-*     Program to demonstrate Mueller's method       *
-* ------------------------------------------------- *
-* Reference: BASIC Scientific Subroutines, Vol. II  *
-* By F.R. Ruckdeschel, BYTE/McGRAWW-HILL, 1981 [1]. *
-*                                                   *
-*                C++ version by J-P Moreau, Paris.  *
-*                       (www.jpmoreau.fr)           *
-* ------------------------------------------------- *
-* Example:  Find a real root of f(x)=(x+1)^5        *
-*                                                   *
-* Sample run:                                       *
-*                                                   *
-* Input the initial guess:                          *
-*    X0 = 0                                         *
-* What is the bond of this guess: 3                 *
-* Error criterion: 1e-6                             *
-* Maximum number of iterations: 100                 *
-*                                                   *
-* The calculated zero is X = -1.000476              *
-* The associated value is Y =  0.000000             *
-* The number of steps was: 47                       *
-*                                                   *
-****************************************************/
-
 #include "Muller.h"
+#include "Laguerre.h"
 #include <iostream>
 
 //using namespace boost::math::tools; // for polynomial
@@ -39,25 +7,29 @@ using namespace std;
 
 
 int main() {
-	/*Pol* n = new Pol();
-
-	polynomial<double> const b{{-2.0, 1.0}};
-
-	n->print_pol(b);*/
-
 	//cout << std::setprecision(10) << endl;
 
+
 	Muller* m = new Muller();
+	Laguerre* g = new Laguerre();
 
 	complex<double> z(0,0);
 
-	polynomial<complex<double>> Polinomio{{-8.0,-4.0,2.0,-1.0,1.0}}; //Pablo's Pol
+	//polynomial<complex<double>> Polinomio{{-8.0,-4.0,2.0,-1.0,1.0}}; //Pablo's Pol
 
-	//polynomial<complex<double>> Polinomio{{-60.0,-23.0,2.0,1.0}};		 //3 Raices Reales
+	polynomial<complex<double>> Polinomio{{-60.0,-23.0,2.0,1.0}};		 //3 Raices Reales
 
 	//polynomial<complex<double>> Polinomio{{36.0,-36.0,13.0,-4.0,1.0}}; //Raices Reales y Complejas
 
+	cout<<"### Muller ###"<<endl;
 	m->findZeros(z,1,0.00000001,10000,Polinomio);
+	cout<<"### #### ###"<<endl;
+	cout<<endl;
+
+	cout<<"### Laguerre ###"<<endl;
+	g->calc_Laguerre(Polinomio);
+	cout<<"### #### ###"<<endl;
+	cout<<endl;
 
   return 0;
 }
