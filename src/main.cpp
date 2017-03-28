@@ -47,7 +47,7 @@ int main() {
 
 	Muller* m = new Muller();
 
-	m->findZeros(1,3,0.00000000001,500);
+	m->findZeros(0,3,0.00000001,1000);
 
   return 0;
 }
