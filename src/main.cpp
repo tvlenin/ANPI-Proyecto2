@@ -45,9 +45,19 @@ int main() {
 
 	n->print_pol(b);*/
 
+	//cout << std::setprecision(10) << endl;
+
 	Muller* m = new Muller();
 
-	m->findZeros(0,3,0.00000001,1000);
+	complex<double> z(0,0);
+
+	polynomial<complex<double>> Polinomio{{-8.0,-4.0,2.0,-1.0,1.0}}; //Pablo's Pol
+
+	//polynomial<complex<double>> Polinomio{{-60.0,-23.0,2.0,1.0}};		 //3 Raices Reales
+
+	//polynomial<complex<double>> Polinomio{{36.0,-36.0,13.0,-4.0,1.0}}; //Raices Reales y Complejas
+
+	m->findZeros(z,1,0.00000001,10000,Polinomio);
 
   return 0;
 }

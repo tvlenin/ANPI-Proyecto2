@@ -30,58 +30,49 @@ public:
 
 	}*/
 
-	void findZeros(complex<double> px0, double pd, double pe, int pn){
+	template<class T>
+	void findZeros(T px0, double pd, double pe, int pn, polynomial<T> Polinomio){
 		Pol* zpol = new Pol();
-
-
-
-		//polynomial<complex<double>> Polinomio{{-1.0,1.0, 1.0,1.0}};
-
-		polynomial<complex<double>> Polinomio{{5.0,1.0, 1.0,1.0,1.0}};
-
 
 		int polDegree = Polinomio.degree();
 
-		complex<double> x;
-		for(int i = 0; i < polDegree-1; i++){
+		T x;
+
+		for(int i = 0; i < polDegree; i++){
+			cout<<endl;
+			if(i+1 == polDegree){
+				x = -Polinomio[0];
+				if(abs(x.real()) < 0.000001)
+					x.real(0);
+				if(abs(x.imag()) < 0.000001)
+					x.imag(0);
+				cout<<"Raíz: "<<i <<": " << x << endl;
+				break;
+			}
+
 			x = calculateZero(px0,pd,pe,pn,Polinomio);
+			if(abs(x.real()) < 0.000001)
+				x.real(0);
+			if(abs(x.imag()) < 0.000001)
+				x.imag(0);
+
 			cout << "Raíz "<< i << ": " << x << endl;
-			polynomial<complex<double>> raiz{{-x,1.0}};
-			polynomial<complex<double>> residuo{{0.0,0.0, 0.0,0.0}};
+			polynomial<T> raiz{{-x,1.0}};
+			polynomial<T> residuo{{0.0,0.0, 0.0,0.0}};
 			Polinomio = zpol->divide(Polinomio,raiz,residuo);
 		}
-
-		cout<< "Raiz: " << polDegree-1 << " " << -Polinomio[0] << endl;
-		/*
-		zpol->print_pol(Polinomio);
-		complex<double> x = calculateZero(px0,pd,pe,pn,Polinomio);
-		cout << "Raíz "<< 1 << ": " << x << endl;
-		polynomial<complex<double>> raiz{{-x,1.0}};
-		polynomial<complex<double>> residuo{{0.0,0.0, 0.0,0.0}};
-		polynomial<complex<double>> result = zpol->divide(Polinomio,raiz,residuo);
-
-		cout<<endl;
-
-		zpol->print_pol(result);
-		complex<double> x2 = calculateZero(px0,pd,pe,pn,result);
-		cout << "Raíz "<< 1 << ": " << x2 << endl;
-		polynomial<complex<double>> raiz2{{-x2,1.0}};
-		polynomial<complex<double>> residuo2{{0.0,0.0, 0.0,0.0}};
-		polynomial<complex<double>> result2 = zpol->divide(Polinomio,raiz2,residuo2);
-
-		cout << endl;
-
-		zpol->print_pol(result2);
-		complex<double> x3 = calculateZero(px0,pd,pe,pn,result2);
-		cout << "Raíz "<< 1 << ": " << x3 << endl;*/
-
-
 	}
 
-	complex<double> calculateZero(complex<double> px0, double pd, double pe, int pn,polynomial<complex<double>> Y) {
+	template<class T>
+	T calculateZero(T px0, double pd, double pe, int pn,polynomial<T> Y) {
+		T constA1(1.0000001,0);
+		T constA2(0.0000001,0);
+		T const4(4,0);
+		T const2(-2,0);
+
 		int k,n;
-		complex<double> d,e,x,x0;
-		complex<double> a1,b,c1,d1,e1,e2,e3,x1,x2,x3,xl,xl1;
+		T d,e,x,x0;
+		T a1,b,c1,d1,e1,e2,e3,x1,x2,x3,xl,xl1;
 
 		x0 = px0;
 		e = pe;
@@ -93,10 +84,10 @@ public:
 		k=1; x3=x0; x1=x3-d; x2=x3+d;
 		// Calculate Mueller parameters and guard against divide by zero
 		if (norm(x2-x1)==0)
-			x2=x2*1.0000001;
+			x2=x2*constA1;
 		e100:
 		if (norm(x2-x1)==0)
-			x2=x2+0.0000001;
+			x2=x2+constA2;
 
 		xl1=(x3-x2)/(x2-x1);
 		d1=(x3-x1)/(x2-x1);
@@ -111,7 +102,7 @@ public:
 		e3=Y.evaluate(x3);
 		a1=xl1*xl1*e1-d1*d1*e2+(xl1+d1)*e3;
 		c1=xl1*(xl1*e1-d1*e2+e3);
-		b=a1*a1-4.0*d1*c1*e3;
+		b=a1*a1-const4*d1*c1*e3;
 
 		// Test for complex root, meaning the parabola is inverted
 		if (norm(b)<0){
@@ -122,7 +113,7 @@ public:
 		if (norm(a1)>0) a1=a1+sqrt(b);
 		// Guard against divide by zero
 		if (norm(a1)==0) a1=1e-7;
-		xl=-2.0*d1*e3/a1;
+		xl=const2*d1*e3/a1;
 		// Calculate next estimate
 		x=x3+xl*(x3-x2);
 		// Test for convergence
@@ -139,9 +130,13 @@ public:
 		e2=e3;
 		goto e100;
 		return 0;
-	} // Mueller()
+	}
 
-	//polynomial<complex<double>> const Y{{-26.0,3.0,0.0, 1.0}};
+	template<class T>
+	T getSimpleRoot(polynomial<T> Y) {
+		T root(Y[0],0.0);
+		return root;
+	}
 };
 
 
