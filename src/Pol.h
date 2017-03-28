@@ -36,7 +36,7 @@ public:
 		int dr = dN - dD;
 		int dq = dN - dD;
 		int dd = dD;
-		int unsigned i; //Iterator
+		int  i; //Iterator
 		r = n_t;
 		polynomial<T>N = n_t;
 		polynomial<T>d = N;
