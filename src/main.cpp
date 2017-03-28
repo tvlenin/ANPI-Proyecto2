@@ -12,8 +12,8 @@ int main() {
 
 	Muller* m = new Muller();
 
-	//complex<double> z(0,0);
-	double z = 0;
+	complex<double> z(0,0);
+	//double z = 0;
 
 
 
@@ -23,8 +23,8 @@ int main() {
 	//polynomial<complex<double>> Polinomio{{36.0,-36.0,13.0,-4.0,1.0}}; //Raices Reales y Complejas
 	//polynomial<double> Polinomio{{36.0,-36.0,13.0,-4.0,1.0}}; //Raices Reales y Complejas
 
-	//polynomial<complex<double>> Polinomio{{-8.0,-4.0,2.0,-1.0,1.0}}; //Pablo's Pol
-	polynomial<double> Polinomio{{-8.0,-4.0,2.0,-1.0,1.0}}; //Pablo's Pol
+	polynomial<complex<double>> Polinomio{{-8.0,-4.0,2.0,-1.0,1.0}}; //Pablo's Pol
+	//polynomial<double> Polinomio{{-8.0,-4.0,2.0,-1.0,1.0}}; //Pablo's Pol
 
 	cout<<"### Muller ###"<<endl;
 	m->findZeros(z,Polinomio);
