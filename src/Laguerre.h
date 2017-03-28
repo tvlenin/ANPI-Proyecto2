@@ -24,19 +24,20 @@ using namespace std;
 class Laguerre{
 public:
 	Laguerre(){};
-	virtual ~Laguerre(){};
-
+	int calc_Laguerre();
+	//virtual ~Laguerre(){};
+/*
 	template<class T>
 	void print_pol(polynomial<T> pol){
 		for(int i=0;i<=pol.degree();i++){
 			cout<<"+ "<<pol[i]<<"x^"<<i;
 		}
 		cout<<"\n";
-	}
+	}*/
 
 
 	template <class T>
-	void calc_Laguerre(polynomial<T>  poly) {
+	int calc_Laguerre(polynomial<T>  poly) {
 		double m = poly.degree();
 		int n = m+1;
 		Pol *pol = new Pol();
@@ -45,8 +46,8 @@ public:
 		polynomial<T>  sd;
 		T x;
 		bool flag ;
-		//for (int j = 0; j < m ;j++){
-		while (cont != 0){
+		for (int j = 0; j < m ;j++){
+		//while (cont != 0){
 			cout<<m<<endl;
 
 			fd= poly;
@@ -79,7 +80,7 @@ public:
 		 	flag = true;
 		 	while(flag){
 		 	//for (int i = 0; i < 10 ; i++){
-		 //	cout<<"x : "<<x<<endl;
+		 	//cout<<"x : "<<x<<endl;
 		 	T G = fd.evaluate(x)/poly.evaluate(x);
 	 	 	T H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
 	 	 	T a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
@@ -93,19 +94,21 @@ public:
 			 		x -= a2;
 			 	else
 			 	  x -= a1;
-				}
+			}else
+				flag =false;
 		}
 
 
 	 cout<<"un cero es : "<<x<<endl;
    polynomial<T> raiz{{-x,1.0}};
    polynomial<T> residuo{{0.0,0.0, 0.0,0.0}};
-	 poly = pol->divide(poly,raiz,residuo);
-	 cont--;
+	poly = pol->divide(poly,raiz,residuo);
+	 //cont--;
 
 	}
+	cout<<"Fin de la vara "<<endl;
 
-
+return 0;
 }
 
 

@@ -17,8 +17,8 @@ using namespace std;
 class Pol {
 public:
 	Pol(){};
-	virtual ~Pol(){};
-	
+	//virtual ~Pol(){};
+
 	template<class T>
 	void print_pol(polynomial<T> pol){
 		for(int i=0;i<=pol.degree();i++){
@@ -26,7 +26,7 @@ public:
 		}
 		cout<<"\n";
 	}
-	
+
 	template<class T>
 	polynomial<T> divide( const polynomial<T>& n_t,
 						const polynomial<T>&D,

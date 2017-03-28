@@ -25,7 +25,7 @@ double d,e,x,x0;
 class Muller{
 public:
 	Muller(){};
-	virtual ~Muller(){};
+	//virtual ~Muller(){};
 
 	/*template<class T>
 	void findZeros(polynomial<T> pol){
