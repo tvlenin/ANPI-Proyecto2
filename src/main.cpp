@@ -21,10 +21,10 @@ int main() {
 
 	//polynomial<complex<double>> Polinomio{{36.0,-36.0,13.0,-4.0,1.0}}; //Raices Reales y Complejas
 
-	cout<<"### Muller ###"<<endl;
-	m->findZeros(z,1,0.00000001,10000,Polinomio);
-	cout<<"### #### ###"<<endl;
-	cout<<endl;
+	//cout<<"### Muller ###"<<endl;
+	//m->findZeros(z,1,0.00000001,10000,Polinomio);
+	//cout<<"### #### ###"<<endl;
+	//cout<<endl;
 
 	cout<<"### Laguerre ###"<<endl;
 	g->calc_Laguerre(Polinomio);

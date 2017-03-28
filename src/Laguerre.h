@@ -37,13 +37,13 @@ public:
 		double m = poly.degree();
 		int n = m+1;
 		Pol *pol = new Pol();
-		int cont = m;
+		//int cont = m;
 		polynomial<T>  fd;
 		polynomial<T>  sd;
 		T x;
 		bool flag ;
-		//for (int j = 0; j < m ;j++){
-		while (cont > 0){
+		for (int j = 0; j < m ;j++){
+		//while (cont > 0){
 			fd= poly;
 			sd= poly;
 			for(double i = 0; i < n; i++){// calcula la primera derivada
@@ -95,7 +95,7 @@ public:
 		 	polynomial<T> raiz{{-x,1.0}};
 		 	polynomial<T> residuo{{0.0,0.0, 0.0,0.0}};
 		 	poly = pol->divide(poly,raiz,residuo);
-		 	cont--;
+		 	//cont--;
 	}
 }
 };
