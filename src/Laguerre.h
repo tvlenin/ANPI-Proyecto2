@@ -21,40 +21,49 @@ using namespace std;
 class Laguerre{
 public:
 	Laguerre(){};
+	int calc_Laguerre();
 	virtual ~Laguerre(){};
-
+/*
 	template<class T>
 	void print_pol(polynomial<T> pol){
 		for(int i=0;i<=pol.degree();i++){
 			cout<<"+ "<<pol[i]<<"x^"<<i;
 		}
 		cout<<"\n";
-	}
+	}*/
 
 
 	template <class T>
-	void calc_Laguerre(polynomial<T>  poly) {
+	int calc_Laguerre(polynomial<T>  poly) {
 		double m = poly.degree();
-		int n = m+1;
+		double n = m+1;
 		Pol *pol = new Pol();
-		//int cont = m;
+		int cont = m;
 		polynomial<T>  fd;
 		polynomial<T>  sd;
 		T x;
 		bool flag ;
-		for (int j = 0; j < m ;j++){
-		//while (cont > 0){
+		T G;
+		T H;
+		T a1;
+		T a2;
+
+		//for (int j = 0; j < m ;j++){
+		while (cont > 0){
 			fd= poly;
 			sd= poly;
+			complex<double> comp (0,0);
 			for(double i = 0; i < n; i++){// calcula la primera derivada
 				if(i == 1)
 					fd[0] = poly[1];
-				if(i == n-1){
+
+				else if(i == n-1){
 					fd[i-1] = poly[i]*i;
-					fd[n-1] = 0;
+					fd[n-1] = comp;
 				}
 				else
 					fd[i-1] = poly[i]*i;
+
 			}
 			for(double i = 0; i < n; i++){//calcula la segunda derivada
 				if(i == 2){
@@ -70,13 +79,14 @@ public:
 			}
 
 
-		 	x=0;
+		 	x=comp;
 		 	flag = true;
+
 		 	while(flag){
-		 		T G = fd.evaluate(x)/poly.evaluate(x);
-		 		T H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
-		 		T a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
-		 		T a2 = m / (G - sqrt((m-1)*(m*H-pow(G,2))));
+		 		G = fd.evaluate(x)/poly.evaluate(x);
+		 		H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
+		 		a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
+		 		a2 = m / (G - sqrt((m-1)*(m*H-pow(G,2))));
 		 		//cout<<"a1 : "<<a1<<endl;
 		 		//cout<<"a2 : "<<a2<<endl;
 		 		if (norm(a1) == norm(a1) && norm(a2) == norm(a2)){
@@ -95,9 +105,13 @@ public:
 		 	polynomial<T> raiz{{-x,1.0}};
 		 	polynomial<T> residuo{{0.0,0.0, 0.0,0.0}};
 		 	poly = pol->divide(poly,raiz,residuo);
-		 	//cont--;
-	}
+		 	cont--;
 }
+	cout<<"Fin"<<endl;
+	exit (0);
+	return 0;
+}
+
 };
 
 
