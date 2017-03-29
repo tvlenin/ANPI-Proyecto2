@@ -73,8 +73,8 @@ template <class T>
 
 	}
 
-	template<class T>
-	T zero (polynomial<T>  poly,polynomial<T>  fd,polynomial<T>  sd){
+template<class T>
+T zero (polynomial<T>  poly,polynomial<T>  fd,polynomial<T>  sd,bool iterationsPrint){
 		double m = poly.degree();
 		T x;
 		bool flag ;
@@ -86,16 +86,18 @@ template <class T>
 	 x=comp;
 	 flag = true;
 /////////////////////////////////////////////////////////////
-G = fd.evaluate(x)/poly.evaluate(x);
-H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
-a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
-a2 = m / (G - sqrt((m-1)*(m*H-pow(G,2))));
-if (norm(a1) != norm(a1) && norm(a2) != norm(a2)){
-	return 999;
-}
+	G = fd.evaluate(x)/poly.evaluate(x);
+	H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
+	a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
+	a2 = m / (G - sqrt((m-1)*(m*H-pow(G,2))));
+	if (norm(a1) != norm(a1) && norm(a2) != norm(a2)){
+		return 999;
+	}
 /////////////////////////////////////////////////////////////
+int cont = 0;
 
 	 while(flag){
+		 cont++;
 		 G = fd.evaluate(x)/poly.evaluate(x);
 		 H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
 		 a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
@@ -114,13 +116,14 @@ if (norm(a1) != norm(a1) && norm(a2) != norm(a2)){
 			 flag = false;
 		 }
 	 }
+	 if(iterationsPrint){cout<<"Number of Iterations: "<<cont<<endl;}
 	 return x;
 
 	}
 
 
 	template<class T>
-	complex<T> zero (polynomial<complex<T>>  poly,polynomial<complex<T>>  fd,polynomial<complex<T>>  sd){
+	complex<T> zero (polynomial<complex<T>>  poly,polynomial<complex<T>>  fd,polynomial<complex<T>>  sd,bool iterationsPrint){
 			double m = poly.degree();
 			complex<T> x;
 			bool flag ;
@@ -131,8 +134,9 @@ if (norm(a1) != norm(a1) && norm(a2) != norm(a2)){
 			complex<T> comp (0,0);
 		 x=comp;
 		 flag = true;
-
+int cont =0;
 		 while(flag){
+			 cont++;
 			 G = fd.evaluate(x)/poly.evaluate(x);
 			 H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
 			 a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
@@ -151,60 +155,70 @@ if (norm(a1) != norm(a1) && norm(a2) != norm(a2)){
 				 flag = false;
 			 }
 		 }
+		 if(iterationsPrint){cout<<"Number of Iterations: "<<cont<<endl;}
 		 return x;
 
 		}
 
 
-
-
 	template <class T>
 	int findZeros(T initGuess, polynomial<T>  poly) {
-
-		Pol *pol = new Pol();
-		int cont = poly.degree();
-		polynomial<T> fd;
-		polynomial<T> sd;
-		T x;
-		while (cont > 0){
-			fd = derive(poly);
-			sd = derive(fd);
-			x = zero(poly,fd,sd);
-			if (x == 999){
-				cout<<"Error: The Polynomial has complex roots. Please, user complex<T> instead."<<endl;
-				break;
-			}
-			 cout<<"un cero es : "<<x<<endl;
-			 polynomial<T> raiz{{-x,1.0}};
-			 polynomial<T> residuo{{0.0,0.0, 0.0,0.0}};
-			 poly = pol->divide(poly,raiz,residuo);
-			 cont--;
-		}
-		//cout<<"Fin"<<endl;
-		return 0;
+		findZerosAux(initGuess,poly,false);
 	}
 
 	template <class T>
-	int calc_Laguerre(polynomial<complex<T>>  poly) {
-
-		Pol *pol = new Pol();
-		int cont = poly.degree();
-		polynomial<complex<T>> fd;
-		polynomial<complex<T>> sd;
-		complex<T> x;
-		while (cont > 0){
-			fd = derive(poly);
-			sd = derive(fd);
-			x = zero(poly,fd,sd);
-			 cout<<"un cero es : "<<x<<endl;
-			 polynomial<complex<T>> raiz{{-x,1.0}};
-			 polynomial<complex<T>> residuo{{0.0,0.0, 0.0,0.0}};
-			 poly = pol->divide(poly,raiz,residuo);
-			 cont--;
-		}
-		//cout<<"Fin"<<endl;
-		return 0;
+	int findZeros(T initGuess, polynomial<complex<T>> poly){
+		findZerosAux(initGuess,poly,false);
 	}
+
+	template<class T>
+	int findZerosAux(T px0, polynomial<complex<T>> poly,bool iterationsPrint){
+
+				Pol *pol = new Pol();
+				int cont = poly.degree();
+				polynomial<complex<T>> fd;
+				polynomial<complex<T>> sd;
+				complex<T> x;
+				while (cont > 0){
+					fd = derive(poly);
+					sd = derive(fd);
+					x = zero(poly,fd,sd, iterationsPrint);
+					 cout<<"un cero es : "<<x<<endl;
+					 polynomial<complex<T>> raiz{{-x,1.0}};
+					 polynomial<complex<T>> residuo{{0.0,0.0, 0.0,0.0}};
+					 poly = pol->divide(poly,raiz,residuo);
+					 cont--;
+				}
+				//cout<<"Fin"<<endl;
+				return 0;
+	}
+	template<class T>
+	int findZerosAux(T px0,polynomial<T> poly,bool iterationsPrint){
+
+				Pol *pol = new Pol();
+				int cont = poly.degree();
+				polynomial<T> fd;
+				polynomial<T> sd;
+				T x;
+				while (cont > 0){
+					fd = derive(poly);
+					sd = derive(fd);
+					x = zero(poly,fd,sd,iterationsPrint);
+					if (x == 999){
+						cout<<"Error: The Polynomial has complex roots. Please, user complex<T> instead."<<endl;
+						break;
+					}
+					 cout<<"un cero es : "<<x<<endl;
+					 polynomial<T> raiz{{-x,1.0}};
+					 polynomial<T> residuo{{0.0,0.0, 0.0,0.0}};
+					 poly = pol->divide(poly,raiz,residuo);
+					 cont--;
+				}
+				//cout<<"Fin"<<endl;
+				return 0;
+	}
+
+
 };
 
 
