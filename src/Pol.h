@@ -33,10 +33,10 @@ public:
 						polynomial<T>& r){ //dividendo, divisor, residuo, return coeficiente. N/D=q N%D=r
 		int dN = n_t.degree();//Degree of the vectors
 		int dD = D.degree();
-		//int dr = dN - dD;
+		int dr = dN - dD;
 		int dq = dN - dD;
 		int dd = dD;
-		int i; //Iterator
+		int  i; //Iterator
 		r = n_t;
 		polynomial<T>N = n_t;
 		polynomial<T>d = N;
@@ -63,9 +63,9 @@ public:
 				dN--;
 			}
 		}
-		//dr = dN;
+		dr = dN;
 		r=N;
-		for(int unsigned i=N.degree();i<=N.degree();i++){
+		for(i=N.degree();i<=N.degree();i++){
 			q[i]=0;
 			r[i]=0;
 		}

@@ -15,7 +15,7 @@ int main() {
 
 	TestFramework* testF = new TestFramework();
 	Muller* m = new Muller();
-	//Laguerre* g = new Laguerre();
+	Laguerre* g = new Laguerre();
 
 	//complex<double> z(0,0);
 	double z = 0;
@@ -31,13 +31,21 @@ int main() {
 
 
 	cout<<"### Muller ###"<<endl;
-	testF->testTime(m,Polinomio,z);
+	//testF->testTime(m,Polinomio,z);
+	testF->testIterations(m,Polinomio,z);
 	cout<<"### #### ###"<<endl;
 	cout<<endl;
+
+	cout<<"### Laguerre ###"<<endl;
+	//testF->testTime(g,Polinomio,z);
+	//testF->testIterations(g,Polinomio,z);
+	cout<<"### #### ###"<<endl;
+	cout<<endl;
+
+
 
 	//g->calc_Laguerre(Polinomio);
 
   return 0;
 }
-
 // End of file Mueller.cpp

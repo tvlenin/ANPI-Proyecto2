@@ -21,7 +21,7 @@ using namespace std;
 class Laguerre{
 public:
 	Laguerre(){};
-	int calc_Laguerre();
+	int findZeros();
 	virtual ~Laguerre(){};
 
 	template<class T>
@@ -85,6 +85,15 @@ template <class T>
 		T comp = 0;
 	 x=comp;
 	 flag = true;
+/////////////////////////////////////////////////////////////
+G = fd.evaluate(x)/poly.evaluate(x);
+H = pow(G,2)-((sd.evaluate(x)/poly.evaluate(x)));
+a1 = m / (G + sqrt((m-1)*(m*H-pow(G,2))));
+a2 = m / (G - sqrt((m-1)*(m*H-pow(G,2))));
+if (norm(a1) != norm(a1) && norm(a2) != norm(a2)){
+	return 999;
+}
+/////////////////////////////////////////////////////////////
 
 	 while(flag){
 		 G = fd.evaluate(x)/poly.evaluate(x);
@@ -150,7 +159,7 @@ template <class T>
 
 
 	template <class T>
-	int calc_Laguerre(polynomial<T>  poly) {
+	int findZeros(T initGuess, polynomial<T>  poly) {
 
 		Pol *pol = new Pol();
 		int cont = poly.degree();
@@ -161,13 +170,17 @@ template <class T>
 			fd = derive(poly);
 			sd = derive(fd);
 			x = zero(poly,fd,sd);
+			if (x == 999){
+				cout<<"Error: The Polynomial has complex roots. Please, user complex<T> instead."<<endl;
+				break;
+			}
 			 cout<<"un cero es : "<<x<<endl;
 			 polynomial<T> raiz{{-x,1.0}};
 			 polynomial<T> residuo{{0.0,0.0, 0.0,0.0}};
 			 poly = pol->divide(poly,raiz,residuo);
 			 cont--;
 		}
-		cout<<"Fin"<<endl;
+		//cout<<"Fin"<<endl;
 		return 0;
 	}
 
@@ -189,7 +202,7 @@ template <class T>
 			 poly = pol->divide(poly,raiz,residuo);
 			 cont--;
 		}
-		cout<<"Fin"<<endl;
+		//cout<<"Fin"<<endl;
 		return 0;
 	}
 };

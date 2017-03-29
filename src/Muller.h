@@ -30,6 +30,17 @@ public:
 
 	template<class T>
 	void findZeros(complex<T> px0, polynomial<complex<T>> Polinomio){
+		findZerosAux(px0,Polinomio,false);
+	}
+
+	template<class T>
+	void findZeros(T px0,polynomial<T> Polinomio){
+		findZerosAux(px0,Polinomio,false);
+	}
+
+
+	template<class T>
+	void findZerosAux(complex<T> px0, polynomial<complex<T>> Polinomio,bool iterationsPrint){
 		Pol* zpol = new Pol();
 		px0.real(px0.real()+1);
 		double pd = 2;			//Scope for first 3 guesses
@@ -52,7 +63,7 @@ public:
 				break;
 			}
 
-			x = calculateZero(px0,pd,pe,pn,Polinomio);
+			x = calculateZero(px0,pd,pe,pn,Polinomio,iterationsPrint);
 			if(abs(x.real()) < 0.000001)
 				x.real(0);
 			if(abs(x.imag()) < 0.000001)
@@ -68,7 +79,7 @@ public:
 
 
 	template<class T>
-	void findZeros(T px0,polynomial<T> Polinomio){
+	void findZerosAux(T px0,polynomial<T> Polinomio,bool iterationsPrint){
 		Pol* zpol = new Pol();
 		px0++;
 		double pd = 2;			//Scope for first 3 guesses
@@ -88,7 +99,7 @@ public:
 				break;
 			}
 
-			x = calculateRealZero(px0,pd,pe,pn,Polinomio,hasComplexRoot);
+			x = calculateRealZero(px0,pd,pe,pn,Polinomio,hasComplexRoot,iterationsPrint);
 			if(hasComplexRoot->GetState() == true){
 				cout << "Error: The Polynomial has complex roots. Please, user complex<T> instead." <<endl;
 				return;
@@ -102,14 +113,8 @@ public:
 
 
 
-
-
-
-
-
-
 	template<class T>
-	T calculateZero(T px0, double pd, double pe, int pn,polynomial<T> Y) {
+	T calculateZero(T px0, double pd, double pe, int pn,polynomial<T> Y,bool iterationsPrint) {
 		T constA1(1.0000001,0);
 		T constA2(0.0000001,0);
 		T const4(4,0);
@@ -162,11 +167,17 @@ public:
 		// Calculate next estimate
 		x=x3+xl*(x3-x2);
 		// Test for convergence
-		if (norm(x-x3)<norm(e))
+		if (norm(x-x3)<norm(e)){
+			if(iterationsPrint == true)
+				cout << "Number of Iterations: "<<k<<endl;
 			return x;
+		}
 		// Test for number of iterations
-		if (k>=n)
+		if (k>=n){
+			if(iterationsPrint == true)
+				cout << "Number of Iterations: "<<k<<endl;
 			return x;
+		}
 		// Otherwise, make another pass
 		k++;
 		// Some saving
@@ -180,7 +191,7 @@ public:
 	}
 
 	template<class T>
-	T calculateRealZero(T px0, double pd, double pe, int pn,polynomial<T> Y, BoolHolder* complex){
+	T calculateRealZero(T px0, double pd, double pe, int pn,polynomial<T> Y, BoolHolder* complex,bool iterationsPrint){
 		int k,n;
 		T d,e,x,x0;
 		T a1,b,c1,d1,e1,e2,e3,x1,x2,x3,xl,xl1;
@@ -227,11 +238,17 @@ public:
 		// Calculate next estimate
 		x=x3+xl*(x3-x2);
 		// Test for convergence
-		if (fabs(x-x3)<e)
+		if (fabs(x-x3)<e){
+			if(iterationsPrint == true)
+				cout << "Number of Iterations: "<<k<<endl;
 			return x;
+		}
 		// Test for number of iterations
-		if (k>=n)
+		if (k>=n){
+			if(iterationsPrint == true)
+				cout << "Number of Iterations: "<<k<<endl;
 			return x;
+		}
 		// Otherwise, make another pass
 		k++;
 		// Some saving

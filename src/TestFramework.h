@@ -39,7 +39,11 @@ public:
 		cout<< endl;
 		cout<< "Average Execution Time: " << static_cast<double>(us)/numTests << "us"<<endl;
 		cout<< "Number of Tests: " << numTests << endl;
+	}
 
+	template<class F, class T>
+	void testIterations(F* pMethod, polynomial<T> pPoly, T initGuess){
+		pMethod->findZerosAux(initGuess,pPoly,true);
 	}
 };
 
