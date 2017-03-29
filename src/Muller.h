@@ -15,24 +15,12 @@
 #include <complex>
 #include <typeinfo>
 #include "Pol.h"
+#include "BoolHolder.h"
 
 using namespace boost::math::tools; // for polynomial
 using namespace std;
 
-class BoolHolder{
-public:
-	BoolHolder(bool pState){
-		state = pState;
-	}
-	bool GetState() const { return state; } // read only
-	//bool& GetState() { return *state; } // read/write
-	void SetState(bool pState){
-		state = pState;
-	}
 
-private:
-	bool state;
-};
 
 class Muller{
 public:
